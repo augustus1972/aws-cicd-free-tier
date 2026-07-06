@@ -1,0 +1,18 @@
+version: 0.0
+os: linux
+files:
+  # Sekcja plików definiuje źródło (z paczki wdrożeniowej) oraz miejsce docelowe w systemie plików serwera EC2.
+  - source: /index.html
+    destination: /var/www/html/
+hooks:
+  # Sekcja "hooks" to zestaw zdarzeń (punktów w czasie), w których możemy uruchomić własne skrypty.
+  # BeforeInstall: Uruchamia skrypty przed skopiowaniem nowych plików na serwer.
+  BeforeInstall:
+    - location: scripts/install_dependencies.sh
+      timeout: 300
+      runas: root
+  # ApplicationStart: Uruchamia skrypty po pomyślnym skopiowaniu wszystkich plików na serwer.
+  ApplicationStart:
+    - location: scripts/start_server.sh
+      timeout: 300
+      runas: root

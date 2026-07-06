@@ -1,0 +1,29 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "Faza 1 - Instalacja środowiska..."
+      # W przypadku bardziej złożonych projektów (np. NodeJS, Python, Java) tutaj instaluje się pakiety
+  pre_build:
+    commands:
+      - echo "Faza 2 - Przygotowanie i testy wstępne..."
+  build:
+    commands:
+      - echo "Faza 3 - Kompilacja i pakowanie..."
+      - echo "Sprawdzanie struktury kodu..."
+      # Funkcja test sprawdza, czy plik index.html fizycznie znajduje się w katalogu roboczym.
+      # Jeśli go nie ma, proces budowania zostanie przerwany (wyjście z kodem błędu 1).
+      - test -f index.html && echo "Plik index.html zweryfikowany pomyślnie!" || exit 1
+  post_build:
+    commands:
+      - echo "Faza 4 - Czynności po budowaniu..."
+      - echo "Pakowanie ukończone w dniu $(date)"
+
+artifacts:
+  # Sekcja określająca, które pliki mają zostać zapisane jako wynik budowania (tzw. Artifacts)
+  # i przekazane do następnego kroku, czyli do wdrożenia (CodeDeploy).
+  files:
+    - index.html
+    - appspec.yml
+    - scripts/**/*
